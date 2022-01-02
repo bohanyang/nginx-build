@@ -1,0 +1,84 @@
+#!/bin/sh
+
+set -eu
+
+while [ $# -gt 0 ]; do
+  case $1 in
+    -f)
+      force_update=
+      ;;
+    -c)
+      upstream="$2"
+      shift
+      ;;
+    *)
+      echo "Unknown argument: \"$1\"." 1>&2
+      exit 1
+  esac
+  shift
+done
+
+[ -z ${link+1s} ] && link="/etc/nginx"
+[ -z ${origin+1s} ] && origin="$link"
+[ -z ${base+1s} ] && base="/srv/nginx"
+[ -z ${defaults+1s} ] && defaults="$base/defaults"
+[ -z ${upstream+1s} ] && upstream="$base/conf"
+
+[ ! -d "$base" ] && {
+  [ -e "$base" ] && {
+    echo "Invalid base: $base" 1>&2
+    exit 1
+  }
+  mkdir -p "$base"
+}
+
+[ ! -e "$defaults" ] && [ ! -L "$origin" ] && [ -d "$origin" ] && {
+  cp -R "$origin" "$defaults"
+  [ "$origin" = "$link" ] && rm -rf "$link"
+}
+
+if [ -L "$link" ]; then
+  # First start: ''
+  # Subsequent updates: "$base/v012345678"
+  current="$(readlink -f "$link")"
+elif [ ! -e "$link" ]; then
+  current=''
+else
+  echo "Invalid link: $link" >&2
+  exit 1
+fi
+
+# First start: "$base/v012345678"
+# Subsequent updates: "$base/v123456789"
+target="$base/v$(date +%s%N)"
+
+# Ensure target is empty
+[ -e "$target" ] && rm -rf "$target"
+mkdir "$target"
+
+# Apply defaults
+[ -d "$defaults" ] && cp -R "$defaults/." "$target"
+
+# Pull from upstream (defaults will be overwritten)
+[ -d "$upstream" ] && cp -R "$upstream/." "$target"
+
+rm -rf "$target/.git"*
+
+! nginx -t -p "$target" -c "$target/nginx.conf" && [ -z ${force_update+1s} ] && {
+  # Test failed
+  rm -rf "$target"
+
+  # Cannot proceed if link does not exist
+  [ -z "$current" ] && exit 1
+
+  exit 10
+}
+
+# Test OK
+# Set link to target
+ln -sfn "$target" "$link"
+
+if [ -n "$current" ]; then
+  # Delete old target only if it's not a first start
+  rm -rf "$current"
+fi
