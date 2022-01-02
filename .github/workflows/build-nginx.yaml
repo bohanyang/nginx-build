@@ -1,0 +1,66 @@
+name: Build nginx
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  NGINX_VERSION: '1.23.1'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Set upload URL
+        env:
+          url: ${{ steps.create_release.outputs.upload_url }}
+        run: |
+          url=${url%%\{*}
+          echo "UPLOAD_URL=$url" >> $GITHUB_ENV
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build for Debian 11
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          outputs: |
+            type=image,push=false
+          build-args: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            UPLOAD_URL=${{ env.UPLOAD_URL }}
+            NGINX_VERSION=${{ env.NGINX_VERSION }}
+          file: ./bullseye.Dockerfile
+
+      - name: Build for Ubuntu 22.04
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          outputs: |
+            type=image,push=false
+          build-args: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            UPLOAD_URL=${{ env.UPLOAD_URL }}
+            NGINX_VERSION=${{ env.NGINX_VERSION }}
+          file: ./jammy.Dockerfile
