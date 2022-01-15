@@ -4,12 +4,13 @@ set -eu
 
 while [ $# -gt 0 ]; do
   case $1 in
-    -f)
-      force_update=
-      ;;
     -c)
       upstream="$2"
       shift
+      ;;
+    --)
+      shift
+      break
       ;;
     *)
       echo "Unknown argument: \"$1\"." 1>&2
@@ -64,19 +65,26 @@ mkdir "$target"
 
 rm -rf "$target/.git"*
 
-! nginx -t -p "$target" -c "$target/nginx.conf" && [ -z ${force_update+1s} ] && {
+# Set link to target
+ln -sfn "$target" "$link"
+
+! "$@" && {
   # Test failed
+
+  if [ -n "$current" ]; then
+    ln -sfn "$current" "$link"
+  else
+    ln -sfn "$defaults" "$link"
+  fi
+
   rm -rf "$target"
 
-  # Cannot proceed if link does not exist
-  [ -z "$current" ] && exit 1
+  [ -n "$current" ] && [ "$current" != "$defaults" ] && exit 10
 
-  exit 10
+  exit 1
 }
 
 # Test OK
-# Set link to target
-ln -sfn "$target" "$link"
 
 if [ -n "$current" ]; then
   # Delete old target only if it's not a first start
