@@ -52,7 +52,7 @@ EOF
     esac
 }
 
-NGINX_VERSION=1.21.5
+NGINX_VERSION=1.21.6
 PCRE_VERSION=8.45
 PCRE2_VERSION=10.39
 OPENSSL_VERSION=3.0.1
@@ -117,7 +117,7 @@ with_lib openssl "openssl-${OPENSSL_VERSION}" "$OPENSSL_URL"
 
 #with_zlib madler 1.2.11
 #with_zlib cloudflare 959b4ea
-with_zlib ng 2.0.5
+with_zlib ng 2.0.6
 
 fetch_source "ngx_brotli-${NGX_BROTLI_VERSION}" "$NGX_BROTLI_URL"
 
