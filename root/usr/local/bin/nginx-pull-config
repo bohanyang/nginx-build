@@ -8,6 +8,10 @@ while [ $# -gt 0 ]; do
       upstream="$2"
       shift
       ;;
+    -o)
+      owner="$2"
+      shift
+      ;;
     --)
       shift
       break
@@ -24,6 +28,7 @@ done
 [ -z ${base+1s} ] && base="/srv/nginx"
 [ -z ${defaults+1s} ] && defaults="$base/defaults"
 [ -z ${upstream+1s} ] && upstream="$base/conf"
+[ -z ${owner+1s} ] && owner="www-data:www-data"
 
 [ ! -d "$base" ] && {
   [ -e "$base" ] && {
