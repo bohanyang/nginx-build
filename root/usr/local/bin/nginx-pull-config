@@ -70,6 +70,8 @@ mkdir "$target"
 
 rm -rf "$target/.git"*
 
+chown -R "$owner" "$target"
+
 # Set link to target
 ln -sfn "$target" "$link"
 
