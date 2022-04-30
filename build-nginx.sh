@@ -108,6 +108,7 @@ CONFIGURE_ARGS="--prefix=/etc/nginx \
 --with-http_stub_status_module \
 --with-http_sub_module \
 --with-http_v2_module \
+--with-http_xslt_module=dynamic \
 --with-mail \
 --with-mail_ssl_module \
 --with-stream \
