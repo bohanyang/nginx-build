@@ -52,19 +52,19 @@ EOF
     esac
 }
 
-NGINX_VERSION=1.23.0
+NGINX_VERSION=1.23.1
 ZLIB_VERSION=1.2.12
 ZLIB_CLOUDFLARE_VERSION=c9479d1
 ZLIB_NG_VERSION=2.0.6
 PCRE_VERSION=8.45
 PCRE2_VERSION=10.39
-OPENSSL_VERSION=3.0.4
+OPENSSL_VERSION=3.0.5
 NGX_BROTLI_VERSION=6e975bcb015f62e1f303054897783355e2a877dc
 BROTLI_VERSION=f4153a09f87cbb9c826d8fc12c74642bb2d879ea
-NGX_GEOIP2_VERSION=3.4
+NGX_GEOIP2_VERSION=refs/tags/3.4
 LIBMAXMINDDB_VERSION=1.6.0
-HEADERS_MORE_VERSION=91eb0db9ef9ac05c4c514b8f1fdf8a8170cc354e
-DAV_EXT_VERSION=3.0.0
+HEADERS_MORE_VERSION=refs/tags/v0.34
+DAV_EXT_VERSION=refs/tags/v3.0.0
 
 NGINX_URL="https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
 PCRE_URL="https://downloads.sourceforge.net/project/pcre/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.gz"
@@ -72,10 +72,10 @@ PCRE2_URL="https://github.com/PhilipHazel/pcre2/releases/download/pcre2-${PCRE2_
 OPENSSL_URL="https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
 NGX_BROTLI_URL="https://github.com/google/ngx_brotli/archive/${NGX_BROTLI_VERSION}.tar.gz"
 BROTLI_URL="https://github.com/google/brotli/archive/${BROTLI_VERSION}.tar.gz"
-NGX_GEOIP2_URL="https://github.com/leev/ngx_http_geoip2_module/archive/refs/tags/${NGX_GEOIP2_VERSION}.tar.gz"
+NGX_GEOIP2_URL="https://github.com/leev/ngx_http_geoip2_module/archive/${NGX_GEOIP2_VERSION}.tar.gz"
 LIBMAXMINDDB_URL="https://github.com/maxmind/libmaxminddb/releases/download/${LIBMAXMINDDB_VERSION}/libmaxminddb-${LIBMAXMINDDB_VERSION}.tar.gz"
 HEADERS_MORE_URL="https://github.com/openresty/headers-more-nginx-module/archive/${HEADERS_MORE_VERSION}.tar.gz"
-DAV_EXT_URL="https://github.com/arut/nginx-dav-ext-module/archive/refs/tags/v${DAV_EXT_VERSION}.tar.gz"
+DAV_EXT_URL="https://github.com/arut/nginx-dav-ext-module/archive/${DAV_EXT_VERSION}.tar.gz"
 
 CONFIGURE_ARGS="--prefix=/etc/nginx \
 --sbin-path=/usr/sbin/nginx \
