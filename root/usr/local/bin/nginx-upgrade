@@ -1,0 +1,89 @@
+#!/usr/bin/env sh
+# shellcheck shell=dash
+
+set -eu
+
+while [ $# -gt 0 ]; do
+  case $1 in
+    -p)
+      pidfile="$2"
+      shift
+      ;;
+    -u)
+      user="$2"
+      shift
+      ;;
+    -t)
+      timeout="$2"
+      shift
+      ;;
+    -n)
+      name="$2"
+      shift
+      ;;
+    -s)
+      suffix="$2"
+      shift
+      ;;
+    *)
+      echo "Unknown argument: \"$1\"." 1>&2
+      exit 1
+  esac
+  shift
+done
+
+[ -z ${pidfile+1s} ] && pidfile="/run/nginx/nginx.pid"
+[ -z ${user+1s} ] && user="www-data"
+[ -z ${timeout+1s} ] && timeout=10
+[ -z ${name+1s} ] && name="nginx"
+[ -z ${suffix+1s} ] && suffix=".oldbin"
+
+is_active() {
+    [ -s "$1" ] && [ -s "$1$suffix" ]
+}
+
+wait_active() {
+    local timeout=$1
+
+    while ! is_active "$pidfile"; do
+        if [ "$timeout" -eq 0 ]; then
+            echo 'Timeout reached while waiting for the service to become active.' 1>&2
+            return 1
+        fi
+
+        timeout=$((timeout - 1))
+        sleep 1
+    done
+}
+
+send_signal() {
+    local suffix=${2-}
+    start-stop-daemon --stop --signal "$1" --quiet --pidfile "$pidfile$suffix" --name "$name" --user "$user"
+}
+
+upgrade_nginx() {
+	# Online upgrade nginx executable
+	# http://nginx.org/en/docs/control.html
+	#
+	# Return
+	#   0 if nginx has been successfully upgraded
+	#   1 if nginx is not running
+	#   2 if the pid files were not created on time
+	#   3 if the old master could not be killed
+	if send_signal USR2; then
+		# Wait for both old and new master to write their pid file
+		if ! wait_active "$timeout"; then
+			return 2
+		fi
+		# Everything is ready, gracefully stop the old master
+		if send_signal QUIT "$suffix"; then
+			return 0
+		else
+			return 3
+		fi
+	else
+		return 1
+	fi
+}
+
+upgrade_nginx
