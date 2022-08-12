@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # shellcheck shell=dash disable=SC2064
 
-set -eu
+set -eux
 
 fetch_source() {
     local tmp

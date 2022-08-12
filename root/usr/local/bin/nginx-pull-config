@@ -33,15 +33,20 @@ done
 
 [ ! -d "$base" ] && {
   [ -e "$base" ] && {
-    echo "Invalid base: $base" 1>&2
+    echo "Base path exists but is not a directory: $base" 1>&2
     exit 1
   }
   mkdir -p "$base"
 }
 
-[ ! -e "$defaults" ] && [ ! -L "$origin" ] && [ -d "$origin" ] && {
-  cp -R "$origin" "$defaults"
-  [ "$origin" = "$link" ] && rm -rf "$link"
+[ ! -L "$origin" ] && [ -d "$origin" ] && {
+  if [ "$origin" = "$link" ]; then
+    rm -rf "$defaults"
+    cp -R "$origin" "$defaults"
+    rm -rf "$origin"
+  elif [ ! -e "$defaults" ]; then
+    cp -R "$origin" "$defaults"
+  fi
 }
 
 if [ -L "$link" ]; then

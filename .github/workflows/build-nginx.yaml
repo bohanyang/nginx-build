@@ -1,18 +1,21 @@
-name: Build NGINX
+name: Build nginx
 
 on:
   push:
     tags:
-      - 'v*'
+      - 'test-*'
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v1
-      - name: Build
+      - name: Build on Debian 10
         run: |
-          ./workflow.sh
+          ./workflow.sh buster
+      - name: Build on Ubuntu 22.04
+        run: |
+          ./workflow.sh jammy
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -28,14 +31,14 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           url: ${{ steps.create_release.outputs.upload_url }}
         run: |
+          set -eux
           url=${url%%\{*}
-          ver=1.23.1
-          file=nginx.tar.xz
-          name="nginx-$ver-linux-x86_64.tar.xz"
-          url="$url?name=$name"
-          curl -f -X POST -D - \
-                -H "Authorization: token $token" \
-                -H 'Accept: application/vnd.github.v3+json' \
-                -H 'Content-Type: application/x-xz' \
-                --data-binary "@$file" \
-                "$url"
+          cd artifacts
+          for file in *; do
+            curl -f -X POST -D - \
+              -H "Authorization: token $token" \
+              -H 'Accept: application/vnd.github.v3+json' \
+              -H 'Content-Type: application/x-xz' \
+              --data-binary "@$file" \
+              "$url?name=$file"
+          done
