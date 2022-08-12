@@ -5,6 +5,9 @@ on:
     tags:
       - 'test-*'
 
+env:
+  NGINX_VERSION: '1.23.1'
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -46,5 +49,18 @@ jobs:
           build-args: |
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             UPLOAD_URL=${{ env.UPLOAD_URL }}
-            NGINX_VERSION=1.23.1
+            NGINX_VERSION=${{ env.NGINX_VERSION }}
           file: ./buster.Dockerfile
+
+      - name: Build for Ubuntu 22.04
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          outputs: |
+            type=local,dest=/dev/null
+          build-args: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            UPLOAD_URL=${{ env.UPLOAD_URL }}
+            NGINX_VERSION=${{ env.NGINX_VERSION }}
+          file: ./jammy.Dockerfile
