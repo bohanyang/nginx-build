@@ -3,7 +3,7 @@
 
 set -eux
 
-VERSION_CODENAME=$(. /etc/os-release; echo "$ID $VERSION_CODENAME $VERSION_ID")
+VERSION_CODENAME=$(. /etc/os-release; echo "$VERSION_CODENAME")
 ARCHITECTURE=$(dpkg --print-architecture)
 
 mkdir build
