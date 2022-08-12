@@ -5,7 +5,7 @@ set -ex
 
 mkdir build
 cd build
-../build.sh
+../build-nginx.sh
 cd nginx-*
 make install
 cd ../..
