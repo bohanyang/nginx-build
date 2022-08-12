@@ -45,7 +45,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           outputs: |
-            type=local,dest=/dev/null
+            type=image,push=false
           build-args: |
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             UPLOAD_URL=${{ env.UPLOAD_URL }}
@@ -58,7 +58,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           outputs: |
-            type=local,dest=/dev/null
+            type=image,push=false
           build-args: |
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             UPLOAD_URL=${{ env.UPLOAD_URL }}
