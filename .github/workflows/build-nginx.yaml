@@ -9,13 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v1
-      - name: Build on Debian 10
-        run: |
-          ./workflow.sh buster
-      - name: Build on Ubuntu 22.04
-        run: |
-          ./workflow.sh jammy
+      - uses: actions/checkout@v2
+
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -24,21 +19,32 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Upload results
+          draft: true
+          prerelease: true
+
+      - name: Set upload URL
         env:
-          token: ${{ secrets.GITHUB_TOKEN }}
           url: ${{ steps.create_release.outputs.upload_url }}
         run: |
-          set -eux
           url=${url%%\{*}
-          cd artifacts
-          for file in *; do
-            curl -f -X POST -D - \
-              -H "Authorization: token $token" \
-              -H 'Accept: application/vnd.github.v3+json' \
-              -H 'Content-Type: application/x-xz' \
-              --data-binary "@$file" \
-              "$url?name=$file"
-          done
+          echo "UPLOAD_URL=$url" >> $GITHUB_ENV
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build for Debian 10
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          outputs: |
+            type=local,dest=/dev/null
+          build-args: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            UPLOAD_URL=${{ env.UPLOAD_URL }}
+            NGINX_VERSION=1.23.1
+          file: ./buster.Dockerfile
