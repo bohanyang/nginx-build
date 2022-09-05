@@ -21,11 +21,9 @@ while [ $# -gt 0 ]; do
       ;;
     --on)
       enable=1
-      shift
       ;;
     --off)
       enable=
-      shift
       ;;
     --)
       shift
