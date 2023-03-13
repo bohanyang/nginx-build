@@ -41,8 +41,17 @@ done
 
 [ ! -L "$origin" ] && [ -d "$origin" ] && {
   if [ "$origin" = "$link" ]; then
+    sites_enabled=
+    if [ -d "$defaults/sites-enabled" ]; then
+      sites_enabled=$(mktemp -d)
+      cp -R "$defaults/sites-enabled/." "$sites_enabled"
+    fi
     rm -rf "$defaults"
     cp -R "$origin" "$defaults"
+    if [ -n "$sites_enabled" ]; then
+      cp -R "$sites_enabled/." "$defaults/sites-enabled"
+      rm -rf "$sites_enabled"
+    fi
     rm -rf "$origin"
   elif [ ! -e "$defaults" ]; then
     cp -R "$origin" "$defaults"

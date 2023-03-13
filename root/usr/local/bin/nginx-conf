@@ -37,9 +37,9 @@ while [ $# -gt 0 ]; do
       if [ -n "$enable" ]; then
         mkdir -p "$dir/sites-enabled"
         cd "$dir/sites-enabled"
-        ln -sfn "../sites-available/$1.conf" .
+        ln -sfn "../sites-available/$1" .
       else
-        rm -rfv "$dir/sites-enabled/$1.conf"
+        rm -rfv "$dir/sites-enabled/$1"
       fi
   esac
   shift
