@@ -52,19 +52,19 @@ EOF
     esac
 }
 
-ZLIB_VERSION=1.2.13
-ZLIB_CLOUDFLARE_VERSION=b37f323dc5bf7dc450d5c179051dc7065350af26
-ZLIB_NG_VERSION=2.0.6
-PCRE_VERSION=8.45
-PCRE2_VERSION=10.39
-OPENSSL_VERSION=3.0.8
-NGX_BROTLI_VERSION=6e975bcb015f62e1f303054897783355e2a877dc
-BROTLI_VERSION=ed1995b6bda19244070ab5d331111f16f67c8054
-NGX_GEOIP2_VERSION=3.4
-LIBMAXMINDDB_VERSION=1.7.1
-HEADERS_MORE_VERSION=0.34
-NGX_ECHO_VERSION=054df94a075701bf29626fd8f666913b57c771e9
-DAV_EXT_VERSION=3.0.0
+ZLIB_VERSION='1.2.13'
+ZLIB_CLOUDFLARE_VERSION='d20bdfcd0efbdd72cb9d857e098ceac1bad41432'
+ZLIB_NG_VERSION='2.0.7'
+PCRE_VERSION='8.45'
+PCRE2_VERSION='10.39'
+OPENSSL_VERSION='3.0.8'
+NGX_BROTLI_VERSION='6e975bcb015f62e1f303054897783355e2a877dc'
+BROTLI_VERSION='ed1995b6bda19244070ab5d331111f16f67c8054'
+NGX_GEOIP2_VERSION='3.4'
+LIBMAXMINDDB_VERSION='1.7.1'
+HEADERS_MORE_VERSION='0.34'
+NGX_ECHO_VERSION='0.63'
+DAV_EXT_VERSION='3.0.0'
 
 NGINX_URL="https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
 PCRE_URL="https://downloads.sourceforge.net/project/pcre/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.gz"
@@ -75,7 +75,7 @@ BROTLI_URL="https://github.com/google/brotli/archive/${BROTLI_VERSION}.tar.gz"
 NGX_GEOIP2_URL="https://github.com/leev/ngx_http_geoip2_module/archive/refs/tags/${NGX_GEOIP2_VERSION}.tar.gz"
 LIBMAXMINDDB_URL="https://github.com/maxmind/libmaxminddb/releases/download/${LIBMAXMINDDB_VERSION}/libmaxminddb-${LIBMAXMINDDB_VERSION}.tar.gz"
 HEADERS_MORE_URL="https://github.com/openresty/headers-more-nginx-module/archive/refs/tags/v${HEADERS_MORE_VERSION}.tar.gz"
-NGX_ECHO_URL="https://github.com/openresty/echo-nginx-module/archive/${NGX_ECHO_VERSION}.tar.gz"
+NGX_ECHO_URL="https://github.com/openresty/echo-nginx-module/archive/refs/tags/v${NGX_ECHO_VERSION}.tar.gz"
 DAV_EXT_URL="https://github.com/arut/nginx-dav-ext-module/archive/refs/tags/v${DAV_EXT_VERSION}.tar.gz"
 
 CONFIGURE_ARGS="--prefix=/etc/nginx \
