@@ -56,8 +56,9 @@ ZLIB_VERSION='1.2.13'
 ZLIB_CLOUDFLARE_VERSION='d20bdfcd0efbdd72cb9d857e098ceac1bad41432'
 ZLIB_NG_VERSION='2.0.7'
 PCRE_VERSION='8.45'
-PCRE2_VERSION='10.39'
+PCRE2_VERSION='10.42'
 OPENSSL_VERSION='3.1.0'
+QUICTLS_VERSION='openssl-3.0.8-quic1'
 NGX_BROTLI_VERSION='6e975bcb015f62e1f303054897783355e2a877dc'
 BROTLI_VERSION='ed1995b6bda19244070ab5d331111f16f67c8054'
 NGX_GEOIP2_VERSION='3.4'
@@ -70,6 +71,7 @@ NGINX_URL="https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
 PCRE_URL="https://downloads.sourceforge.net/project/pcre/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.gz"
 PCRE2_URL="https://github.com/PhilipHazel/pcre2/releases/download/pcre2-${PCRE2_VERSION}/pcre2-${PCRE2_VERSION}.tar.gz"
 OPENSSL_URL="https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
+QUICTLS_URL="https://github.com/quictls/openssl/archive/refs/tags/${QUICTLS_VERSION}.tar.gz"
 NGX_BROTLI_URL="https://github.com/google/ngx_brotli/archive/${NGX_BROTLI_VERSION}.tar.gz"
 BROTLI_URL="https://github.com/google/brotli/archive/${BROTLI_VERSION}.tar.gz"
 NGX_GEOIP2_URL="https://github.com/leev/ngx_http_geoip2_module/archive/refs/tags/${NGX_GEOIP2_VERSION}.tar.gz"
@@ -122,7 +124,8 @@ fetch_source "nginx-${NGINX_VERSION}" "$NGINX_URL"
 
 #with_lib pcre "pcre-${PCRE_VERSION}" "$PCRE_URL"
 with_lib pcre "pcre2-${PCRE2_VERSION}" "$PCRE2_URL"
-with_lib openssl "openssl-${OPENSSL_VERSION}" "$OPENSSL_URL"
+#with_lib openssl "openssl-${OPENSSL_VERSION}" "$OPENSSL_URL"
+with_lib openssl "openssl-${QUICTLS_VERSION}" "$QUICTLS_URL"
 
 #with_zlib madler "$ZLIB_VERSION"
 #with_zlib cloudflare "$ZLIB_CLOUDFLARE_VERSION"
