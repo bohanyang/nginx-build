@@ -6,10 +6,10 @@ on:
       - 'v*'
 
 env:
-  NGINX_VERSION: '1.25.0'
+  NGINX_VERSION: '1.25.1'
 
 jobs:
-  build:
+  create_release:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
@@ -32,6 +32,21 @@ jobs:
           url=${url%%\{*}
           echo "UPLOAD_URL=$url" >> $GITHUB_ENV
 
+  build:
+    needs: create_release
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        include:
+          - os: 'Debian 12'
+            dockerfile: './bookworm.Dockerfile'
+          - os: 'Debian 11'
+            dockerfile: './bullseye.Dockerfile'
+          - os: 'Ubuntu 22.04'
+            dockerfile: './jammy.Dockerfile'
+    steps:
+      - uses: actions/checkout@v2
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
@@ -39,7 +54,7 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build for Debian 11
+      - name: Build for ${{ matrix.os }}
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -48,19 +63,6 @@ jobs:
             type=image,push=false
           build-args: |
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-            UPLOAD_URL=${{ env.UPLOAD_URL }}
+            UPLOAD_URL=${{ needs.create_release.outputs.upload_url }}
             NGINX_VERSION=${{ env.NGINX_VERSION }}
-          file: ./bullseye.Dockerfile
-
-      - name: Build for Ubuntu 22.04
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          outputs: |
-            type=image,push=false
-          build-args: |
-            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-            UPLOAD_URL=${{ env.UPLOAD_URL }}
-            NGINX_VERSION=${{ env.NGINX_VERSION }}
-          file: ./jammy.Dockerfile
+          file: ${{ matrix.dockerfile }}
