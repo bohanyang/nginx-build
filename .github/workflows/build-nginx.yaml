@@ -11,6 +11,8 @@ env:
 jobs:
   create_release:
     runs-on: ubuntu-22.04
+    outputs:
+      upload_url: ${{ steps.set_upload_url.outputs.upload_url }}
     steps:
       - uses: actions/checkout@v2
 
@@ -26,11 +28,12 @@ jobs:
           prerelease: false
 
       - name: Set upload URL
+        id: set_upload_url
         env:
           url: ${{ steps.create_release.outputs.upload_url }}
         run: |
           url=${url%%\{*}
-          echo "UPLOAD_URL=$url" >> $GITHUB_ENV
+          echo "upload_url=$url" >> $GITHUB_OUTPUT
 
   build:
     needs: create_release
