@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 env:
-  NGINX_VERSION: '1.25.1'
+  NGINX_VERSION: '1.25.2'
 
 jobs:
   create_release:
@@ -43,8 +43,6 @@ jobs:
         include:
           - os: 'Debian 12'
             dockerfile: './bookworm.Dockerfile'
-          - os: 'Debian 11'
-            dockerfile: './bullseye.Dockerfile'
           - os: 'Ubuntu 22.04'
             dockerfile: './jammy.Dockerfile'
     steps:

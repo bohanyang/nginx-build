@@ -57,8 +57,8 @@ ZLIB_CLOUDFLARE_VERSION='d20bdfcd0efbdd72cb9d857e098ceac1bad41432'
 ZLIB_NG_VERSION='2.1.3'
 PCRE_VERSION='8.45'
 PCRE2_VERSION='10.42'
-OPENSSL_VERSION='3.1.1'
-QUICTLS_VERSION='openssl-3.0.9-quic1'
+OPENSSL_VERSION='3.1.2'
+QUICTLS_VERSION='openssl-3.1.2-quic1'
 NGX_BROTLI_VERSION='v1.0.0rc'
 BROTLI_VERSION='50ebce107f5b1eb36760c7ec2d4726ec56784373'
 NGX_GEOIP2_VERSION='3.4'
@@ -111,6 +111,7 @@ CONFIGURE_ARGS="--prefix=/etc/nginx \
 --with-http_stub_status_module \
 --with-http_sub_module \
 --with-http_v2_module \
+--with-http_v3_module \
 --with-http_xslt_module=dynamic \
 --with-mail \
 --with-mail_ssl_module \
