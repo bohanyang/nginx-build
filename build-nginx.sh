@@ -53,16 +53,16 @@ EOF
 }
 
 ZLIB_VERSION='1.2.13'
-ZLIB_CLOUDFLARE_VERSION='d20bdfcd0efbdd72cb9d857e098ceac1bad41432'
-ZLIB_NG_VERSION='2.1.3'
+ZLIB_CLOUDFLARE_VERSION='7aa510344e06fecd6fe09195ac22e9a424ceb660'
+ZLIB_NG_VERSION='2.1.6'
 PCRE_VERSION='8.45'
 PCRE2_VERSION='10.42'
-OPENSSL_VERSION='3.1.2'
-QUICTLS_VERSION='openssl-3.1.2-quic1'
+OPENSSL_VERSION='3.1.5'
+QUICTLS_VERSION='openssl-3.1.5-quic1'
 NGX_BROTLI_VERSION='v1.0.0rc'
-BROTLI_VERSION='50ebce107f5b1eb36760c7ec2d4726ec56784373'
+BROTLI_VERSION='v1.1.0'
 NGX_GEOIP2_VERSION='3.4'
-LIBMAXMINDDB_VERSION='1.7.1'
+LIBMAXMINDDB_VERSION='1.9.1'
 HEADERS_MORE_VERSION='0.34'
 NGX_ECHO_VERSION='0.63'
 DAV_EXT_VERSION='3.0.0'
@@ -73,7 +73,7 @@ PCRE2_URL="https://github.com/PhilipHazel/pcre2/releases/download/pcre2-${PCRE2_
 OPENSSL_URL="https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
 QUICTLS_URL="https://github.com/quictls/openssl/archive/refs/tags/${QUICTLS_VERSION}.tar.gz"
 NGX_BROTLI_URL="https://github.com/google/ngx_brotli/archive/refs/tags/${NGX_BROTLI_VERSION}.tar.gz"
-BROTLI_URL="https://github.com/google/brotli/archive/${BROTLI_VERSION}.tar.gz"
+BROTLI_URL="https://github.com/google/brotli/archive/refs/tags/${BROTLI_VERSION}.tar.gz"
 NGX_GEOIP2_URL="https://github.com/leev/ngx_http_geoip2_module/archive/refs/tags/${NGX_GEOIP2_VERSION}.tar.gz"
 LIBMAXMINDDB_URL="https://github.com/maxmind/libmaxminddb/releases/download/${LIBMAXMINDDB_VERSION}/libmaxminddb-${LIBMAXMINDDB_VERSION}.tar.gz"
 HEADERS_MORE_URL="https://github.com/openresty/headers-more-nginx-module/archive/refs/tags/v${HEADERS_MORE_VERSION}.tar.gz"
