@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 env:
-  NGINX_VERSION: '1.25.4'
+  NGINX_VERSION: '1.25.5'
 
 jobs:
   create_release:
@@ -41,12 +41,20 @@ jobs:
     strategy:
       matrix:
         include:
+          - os: 'Debian 13'
+            dockerfile: './trixie.Dockerfile'
           - os: 'Debian 12'
             dockerfile: './bookworm.Dockerfile'
           - os: 'Debian 11'
             dockerfile: './bullseye.Dockerfile'
+          - os: 'Debian 10'
+            dockerfile: './buster.Dockerfile'
+          - os: 'Ubuntu 24.04'
+            dockerfile: './noble.Dockerfile'
           - os: 'Ubuntu 22.04'
             dockerfile: './jammy.Dockerfile'
+          - os: 'Ubuntu 20.04'
+            dockerfile: './focal.Dockerfile'
     steps:
       - uses: actions/checkout@v2
 
